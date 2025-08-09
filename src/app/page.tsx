@@ -1,95 +1,78 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client'
+
+import { useSession } from 'next-auth/react'
+import { Container, Typography, Button, Box, Paper } from '@mui/material'
+import Link from 'next/link'
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const { data: session, status } = useSession()
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+  if (status === 'loading') {
+    return (
+      <Container maxWidth="sm" sx={{ mt: 8 }}>
+        <Typography variant="h4" align="center">
+          Loading...
+        </Typography>
+      </Container>
+    )
+  }
+
+  return (
+    <Container maxWidth="md" sx={{ mt: 8 }}>
+      <Paper elevation={3} sx={{ p: 4, textAlign: 'center' }}>
+        <Typography variant="h2" component="h1" gutterBottom color="primary">
+          TGEM VACANCIES  
+        </Typography>
+        
+        <Typography variant="h6" color="text.secondary" paragraph>
+          Welcom to the TGEM Vacancies Portal
+        </Typography>
+
+        {session ? (
+          <Box sx={{ mt: 4 }}>
+            <Typography variant="h5" gutterBottom>
+              Hello, {session.user?.name || session.user?.email}!
+            </Typography>
+            <Box sx={{ mt: 3, display: 'flex', gap: 2, justifyContent: 'center' }}>
+              <Button
+                component={Link}
+                href="/dashboard"
+                variant="contained"
+                size="large"
+              >
+                Go to Dashboard
+              </Button>
+              <Button
+                component={Link}
+                href="/profile"
+                variant="outlined"
+                size="large"
+              >
+                View Profile
+              </Button>
+            </Box>
+          </Box>
+        ) : (
+          <Box sx={{ mt: 4, display: 'flex', gap: 2, justifyContent: 'center' }}>
+            <Button
+              component={Link}
+              href="/auth/signin"
+              variant="contained"
+              size="large"
+            >
+              Sign In
+            </Button>
+            <Button
+              component={Link}
+              href="/auth/signup"
+              variant="outlined"
+              size="large"
+            >
+              Sign Up
+            </Button>
+          </Box>
+        )}
+      </Paper>
+    </Container>
+  )
 }
