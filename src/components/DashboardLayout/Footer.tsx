@@ -1,3 +1,4 @@
+'use client';
 import { Box, Typography, Link } from '@mui/material';
 
 export default function DashboardFooter() {
@@ -5,9 +6,10 @@ export default function DashboardFooter() {
     <Box
       component="footer"
       sx={{
-        py: 3,
+        py: 2,
         px: 2,
         mt: 'auto',
+        textAlign: 'center',
         backgroundColor: (theme) =>
           theme.palette.mode === 'light'
             ? theme.palette.grey[200]
@@ -19,7 +21,7 @@ export default function DashboardFooter() {
       </Typography>
       <Typography variant="body2" color="text.secondary">
         {'Copyright © '}
-        <Link color="inherit" href="https://mycompany.com/">
+        <Link color="inherit" href="https://mycompany.com/" target="_blank" rel="noopener noreferrer">
           My Company
         </Link>{' '}
         {new Date().getFullYear()}

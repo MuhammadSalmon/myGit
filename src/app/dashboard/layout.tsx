@@ -18,33 +18,45 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
+
+      {/* Top Bar */}
       <DashboardHeader 
         open={open} 
         toggleDrawer={toggleDrawer} 
         drawerWidth={drawerWidth} 
       />
+
+      {/* Sidebar Drawer */}
       <DashboardDrawer 
         open={open} 
         toggleDrawer={toggleDrawer} 
         drawerWidth={drawerWidth} 
       />
+
+      {/* Main Content Area */}
       <Box
         component="main"
         sx={{
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100vh',
           backgroundColor: (theme) =>
             theme.palette.mode === 'light'
               ? theme.palette.grey[100]
               : theme.palette.grey[900],
-          flexGrow: 1,
-          height: '100vh',
-          overflow: 'auto',
         }}
       >
+        {/* Push content below the AppBar */}
         <Toolbar />
-        <Box sx={{ p: 3 }}>
+
+        {/* Main content area that grows */}
+        <Box sx={{ flex: 1, p: 3 }}>
           {children}
-          <DashboardFooter />
         </Box>
+
+        {/* Sticky Footer */}
+        <DashboardFooter />
       </Box>
     </Box>
   );
